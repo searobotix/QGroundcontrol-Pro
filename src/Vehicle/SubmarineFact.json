@@ -1,0 +1,45 @@
+[
+{
+    "name":             "camera tilt",
+    "shortDescription": "摄像头角度",
+    "type":             "int16",
+    "units":            "%"
+},
+{
+    "name":             "tether turns",
+    "shortDescription": "Tether Turns",
+    "type":             "int16",
+    "units":            "clockwise"
+},
+{
+    "name":             "lights 1",
+    "shortDescription": "灯光亮度",
+    "type":             "int16",
+    "units":            "%"
+},
+{
+    "name":             "lights 2",
+    "shortDescription": "Lights 2 level",
+    "type":             "int16",
+    "units":            "%"
+},
+{
+    "name":             "pilot gain",
+    "shortDescription": "油门",
+    "type":             "int16",
+    "units":            "%"
+},
+{
+    "name":             "input hold",
+    "shortDescription": "输入保持",
+    "type":             "int16",
+    "enumStrings":      "禁用,启用",
+    "enumValues":       "0,1"
+},
+{    "name":             "rangefinder distance",
+    "shortDescription": "Rangefinder",
+    "type":             "float",
+    "decimalPlaces":    2,
+    "units":            "meters"
+}
+]

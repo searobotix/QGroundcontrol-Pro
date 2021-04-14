@@ -1,0 +1,118 @@
+[
+{
+    "name":             "roll",
+    "shortDescription": "横滚角",
+    "type":             "double",
+    "decimalPlaces":    1,
+    "units":            "°"
+},
+{
+    "name":             "pitch",
+    "shortDescription": "俯仰角",
+    "type":             "double",
+    "decimalPlaces":    1,
+    "units":            "°"
+},
+{
+    "name":             "heading",
+    "shortDescription": "航向角",
+    "type":             "double",
+    "decimalPlaces":    0,
+    "units":            "°"
+},
+{
+    "name":             "rollRate",
+    "shortDescription": "横滚速率",
+    "type":             "double",
+    "decimalPlaces":    1,
+    "units":            "°/s"
+},
+{
+    "name":             "pitchRate",
+    "shortDescription": "俯仰速率",
+    "type":             "double",
+    "decimalPlaces":    1,
+    "units":            "°/s"
+},
+{
+    "name":             "yawRate",
+    "shortDescription": "偏航速率",
+    "type":             "double",
+    "decimalPlaces":    1,
+    "units":            "°/s"
+},
+{
+    "name":             "groundSpeed",
+    "shortDescription": "Ground Speed",
+    "type":             "double",
+    "decimalPlaces":    1,
+    "units":            "m/s"
+},
+{
+    "name":             "airSpeed",
+    "shortDescription": "Air Speed",
+    "type":             "double",
+    "decimalPlaces":    1,
+    "units":            "m/s"
+},
+{
+    "name":             "climbRate",
+    "shortDescription": "Climb Rate",
+    "type":             "double",
+    "decimalPlaces":    1,
+    "units":            "m/s"
+},
+{
+    "name":             "altitudeRelative",
+    "shortDescription": "深度",
+    "type":             "double",
+    "decimalPlaces":    1,
+    "units":            "m"
+},
+{
+    "name":             "altitudeAMSL",
+    "shortDescription": "Alt (AMSL)",
+    "type":             "double",
+    "decimalPlaces":    1,
+    "units":            "m"
+},
+{
+    "name":             "flightDistance",
+    "shortDescription": "Flight Distance",
+    "type":             "double",
+    "decimalPlaces":    1,
+    "units":            "m"
+},
+{
+    "name":             "distanceToHome",
+    "shortDescription": "Distance to Home",
+    "type":             "double",
+    "decimalPlaces":    1,
+    "units":            "m"
+},
+{
+    "name":             "headingToHome",
+    "shortDescription": "Heading to Home",
+    "type":             "double",
+    "decimalPlaces":    0,
+    "units":            "deg"
+},
+{
+    "name":             "distanceToGCS",
+    "shortDescription": "Distance to GCS",
+    "type":             "double",
+    "decimalPlaces":    1,
+    "units":            "m"
+},
+{
+    "name":             "flightTime",
+    "shortDescription": "潜航时间",
+    "type":             "elapsedSeconds",
+    "decimalPlaces":    1
+},
+{
+    "name":             "hobbs",
+    "shortDescription": "Hobbs Meter",
+    "type":             "string"
+}
+]

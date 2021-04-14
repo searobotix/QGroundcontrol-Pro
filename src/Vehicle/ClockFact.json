@@ -1,0 +1,12 @@
+[
+{
+    "name":             "currentTime",
+    "shortDescription": "目前时间",
+    "type":             "string"
+},
+{
+    "name":             "currentDate",
+    "shortDescription": "Date",
+    "type":             "string"
+}
+]

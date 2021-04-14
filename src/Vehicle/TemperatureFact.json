@@ -1,0 +1,23 @@
+[
+{
+    "name":             "temperature1",
+    "shortDescription": "舱内温度",
+    "type":             "double",
+    "decimalPlaces":    2,
+    "units":            "°C"
+},
+{
+    "name":             "temperature2",
+    "shortDescription": "水温",
+    "type":             "double",
+    "decimalPlaces":    2,
+    "units":            "°C"
+},
+{
+    "name":             "temperature3",
+    "shortDescription": "Temperature (3)",
+    "type":             "double",
+    "decimalPlaces":    2,
+    "units":            "C"
+}
+]

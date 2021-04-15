@@ -26,6 +26,8 @@ Rectangle {
     QGCPalette { id: qgcPal; colorGroupEnabled: true }
 
     property var  _activeVehicle:  QGroundControl.multiVehicleManager.activeVehicle
+    property string comDisabled: "Disabled"
+
 
     signal showSettingsView
     signal showSetupView
@@ -148,6 +150,23 @@ Rectangle {
                 width:              1
                 color:              qgcPal.text
                 visible:            _activeVehicle
+            }
+            QGCComboBox {
+                id:                     comPortCombo
+                model:  ListModel {
+                }
+                Component.onCompleted: {
+                    model.append({text: comDisabled})
+                    for (var i in QGroundControl.linkManager.serialPorts) {
+                        comPortCombo.model.append({text:QGroundControl.linkManager.serialPorts[i]})
+                    }
+                    }
+                }
+            QGCButton {
+                //anchors.horizontalCenter:   parent.horizontalCenter
+                text:                       qsTr("Á¬½Ó")
+                visible:                    true
+                onClicked:                  _activeVehicle.portinit(comPortCombo.currentText)
             }
         }
 

@@ -54,6 +54,7 @@ QGCView {
 
     property string gpsDisabled: "Disabled"
     property string gpsUdpPort:  "UDP Port"
+    property string comDisabled: "Disabled"
 
     readonly property real _internalWidthRatio: 0.8
 

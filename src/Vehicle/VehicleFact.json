@@ -114,5 +114,10 @@
     "name":             "hobbs",
     "shortDescription": "Hobbs Meter",
     "type":             "string"
+},
+{
+    "name":             "counter",
+    "shortDescription": "计数器",
+    "type":             "double"
 }
 ]

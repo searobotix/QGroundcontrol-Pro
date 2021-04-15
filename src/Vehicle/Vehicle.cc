@@ -11,6 +11,8 @@
 #include <QDateTime>
 #include <QLocale>
 #include <QQuaternion>
+#include <QSerialPort>
+#include <QThread>
 
 //
 #include "Vehicle.h"
@@ -66,6 +68,7 @@ const char* Vehicle::_rollRateFactName =             "rollRate";
 const char* Vehicle::_pitchRateFactName =           "pitchRate";
 const char* Vehicle::_yawRateFactName =             "yawRate";
 const char* Vehicle::_airSpeedFactName =            "airSpeed";
+const char* Vehicle::_counterFactName=             "counter";
 const char* Vehicle::_groundSpeedFactName =         "groundSpeed";
 const char* Vehicle::_climbRateFactName =           "climbRate";
 const char* Vehicle::_altitudeRelativeFactName =    "altitudeRelative";
@@ -194,6 +197,7 @@ Vehicle::Vehicle(LinkInterface*             link,
     , _yawRateFact          (0, _yawRateFactName,           FactMetaData::valueTypeDouble)
     , _groundSpeedFact      (0, _groundSpeedFactName,       FactMetaData::valueTypeDouble)
     , _airSpeedFact         (0, _airSpeedFactName,          FactMetaData::valueTypeDouble)
+    , _counterFact         (0, _counterFactName,          FactMetaData::valueTypeDouble)
     , _climbRateFact        (0, _climbRateFactName,         FactMetaData::valueTypeDouble)
     , _altitudeRelativeFact (0, _altitudeRelativeFactName,  FactMetaData::valueTypeDouble)
     , _altitudeAMSLFact     (0, _altitudeAMSLFactName,      FactMetaData::valueTypeDouble)
@@ -395,6 +399,7 @@ Vehicle::Vehicle(MAV_AUTOPILOT              firmwareType,
     , _yawRateFact          (0, _yawRateFactName,           FactMetaData::valueTypeDouble)
     , _groundSpeedFact      (0, _groundSpeedFactName,       FactMetaData::valueTypeDouble)
     , _airSpeedFact         (0, _airSpeedFactName,          FactMetaData::valueTypeDouble)
+    , _counterFact         (0, _counterFactName,          FactMetaData::valueTypeDouble)
     , _climbRateFact        (0, _climbRateFactName,         FactMetaData::valueTypeDouble)
     , _altitudeRelativeFact (0, _altitudeRelativeFactName,  FactMetaData::valueTypeDouble)
     , _altitudeAMSLFact     (0, _altitudeAMSLFactName,      FactMetaData::valueTypeDouble)
@@ -469,6 +474,7 @@ void Vehicle::_commonInit(void)
     _addFact(&_yawRateFact,             _yawRateFactName);
     _addFact(&_groundSpeedFact,         _groundSpeedFactName);
     _addFact(&_airSpeedFact,            _airSpeedFactName);
+    _addFact(&_counterFact,            _counterFactName);
     _addFact(&_climbRateFact,           _climbRateFactName);
     _addFact(&_altitudeRelativeFact,    _altitudeRelativeFactName);
     _addFact(&_altitudeAMSLFact,        _altitudeAMSLFactName);
@@ -1509,6 +1515,67 @@ bool Vehicle::_apmArmingNotRequired(void)
             _parameterManager->getParameter(FactSystem::defaultComponentId, armingRequireParam)->rawValue().toInt() == 0;
 }
 
+void Vehicle::portinit(QString input)
+{
+counterPort = new QSerialPort();
+
+if(counterPort->isOpen())
+    {
+    counterPort->clear();
+    counterPort->close();
+    }
+counterPort->setPortName(input);
+if(counterPort->open(QIODevice::ReadWrite))
+    {
+    qDebug()<<"init"<<input;
+    counterPort->setBaudRate(QSerialPort::Baud9600,QSerialPort::AllDirections);
+    counterPort->setDataBits(QSerialPort::Data8);
+    counterPort->setFlowControl(QSerialPort::NoFlowControl);
+    counterPort->setParity(QSerialPort::NoParity);
+    counterPort->setStopBits(QSerialPort::OneStop);
+    QTimer *sendtimer = new QTimer(this);
+    sendtimer->start(100);
+    connect(sendtimer, SIGNAL(timeout()), this, SLOT(_portsend()));
+    connect(counterPort,SIGNAL(readyRead()),this,SLOT(_portrecive()));
+    }
+}
+
+void Vehicle::_portrecive()
+{
+
+QByteArray recive= this->counterPort->readAll();
+int x=0;
+//qDebug()<<(int)recive[3]<<(int)recive[4]<<(int)recive[5]<<(int)recive[6];
+if((int)recive[0]==1&&(int)recive[1]==3&&(int)recive[2]==4)
+    {
+    /*if((int)recive[5]<240)
+        x=(int)recive[4]+(int)recive[3]*256+(int)recive[6]*512+(int)recive[5]*1024;
+    else
+        x=-1*((0xFF-(int)recive.at(4))+(0xFF-(int)recive.at(3))*256+(0xFF-(int)recive.at(6))*512+(0xFF-(int)recive.at(5))*1024);*/
+    x=recive[4]&0x000000FF;
+    x|=((recive[3]<<8)&0x0000FF00);
+    x|=((recive[6]<<16)&0x00FF0000);
+    x|=((recive[5]<<24)&0xFF000000);
+    _counterFact.setRawValue(x);
+    }
+}
+
+void Vehicle::_portsend()
+{
+QByteArray senddata;
+senddata.resize(8);
+senddata[0]='\x01';
+senddata[1]='\x03';
+senddata[2]='\x00';
+senddata[3]='\x24';
+senddata[4]='\x00';
+senddata[5]='\x02';
+senddata[6]='\x84';
+senddata[7]='\x00';
+const QByteArray sent=senddata;
+if(counterPort && counterPort->isOpen())
+{counterPort->write(sent);}
+}
 void Vehicle::_handleSysStatus(mavlink_message_t& message)
 {
     mavlink_sys_status_t sysStatus;

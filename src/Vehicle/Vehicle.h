@@ -12,6 +12,8 @@
 #include <QObject>
 #include <QVariantList>
 #include <QGeoCoordinate>
+#include<QSerialPort>
+#include<QSerialPortInfo>
 
 #include "FactGroup.h"
 #include "LinkInterface.h"
@@ -755,7 +757,7 @@ public:
     ///     @param motor Motor number, 1-based
     ///     @param percent 0-no power, 100-full power
     Q_INVOKABLE void motorTest(int motor, int percent);
-
+    Q_INVOKABLE void portinit(QString input);
     bool    guidedModeSupported     (void) const;
     bool    pauseVehicleSupported   (void) const;
     bool    orbitModeSupported      (void) const;
@@ -944,6 +946,7 @@ public:
     Fact* pitchRate         (void) { return &_pitchRateFact; }
     Fact* yawRate           (void) { return &_yawRateFact; }
     Fact* airSpeed          (void) { return &_airSpeedFact; }
+    Fact* counter          (void) { return &_counterFact; }
     Fact* groundSpeed       (void) { return &_groundSpeedFact; }
     Fact* climbRate         (void) { return &_climbRateFact; }
     Fact* altitudeRelative  (void) { return &_altitudeRelativeFact; }
@@ -1181,7 +1184,10 @@ signals:
     void requestProtocolVersion(unsigned version);
     void mavlinkStatusChanged();
 
+public slots:
 private slots:
+    void _portrecive();
+    void _portsend();
     void _mavlinkMessageReceived(LinkInterface* link, mavlink_message_t message);
     void _linkInactiveOrDeleted(LinkInterface* link);
     void _sendMessageOnLink(LinkInterface* link, mavlink_message_t message);
@@ -1189,6 +1195,7 @@ private slots:
     void _addNewMapTrajectoryPoint(void);
     void _parametersReady(bool parametersReady);
     void _remoteControlRSSIChanged(uint8_t rssi);
+    QString _cnspeak(QString in);
     void _handleFlightModeChanged(const QString& flightMode);
     void _announceArmedChanged(bool armed);
     void _offlineFirmwareTypeSettingChanged(QVariant value);
@@ -1284,6 +1291,8 @@ private:
     void _updateArmed(bool armed);
     bool _apmArmingNotRequired(void);
 
+    QSerialPort *counterPort;
+    QTimer *sendtimer;
     int     _id;                    ///< Mavlink system id
     int     _defaultComponentId;
     bool    _active;
@@ -1475,6 +1484,7 @@ private:
     Fact _yawRateFact;
     Fact _groundSpeedFact;
     Fact _airSpeedFact;
+    Fact _counterFact;
     Fact _climbRateFact;
     Fact _altitudeRelativeFact;
     Fact _altitudeAMSLFact;
@@ -1504,6 +1514,7 @@ private:
     static const char* _yawRateFactName;
     static const char* _groundSpeedFactName;
     static const char* _airSpeedFactName;
+    static const char* _counterFactName;
     static const char* _climbRateFactName;
     static const char* _altitudeRelativeFactName;
     static const char* _altitudeAMSLFactName;

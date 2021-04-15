@@ -1,7 +1,7 @@
 [
 {
     "name":             "voltage",
-    "shortDescription": "电压",
+    "shortDescription": "电池电压",
     "type":             "double",
     "decimalPlaces":    2,
     "units":            "v"

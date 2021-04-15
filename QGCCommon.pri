@@ -128,7 +128,7 @@ exists ($$PWD/.git) {
         GIT_VERSION = $${GIT_DESCRIBE}
     } else {
         # development version "Development branch:sha date"
-        GIT_VERSION = $${GIT_DESCRIBE}#"Development $${GIT_BRANCH}:$${GIT_HASH} $${GIT_TIME}"
+        GIT_VERSION = "Development $${GIT_BRANCH}:$${GIT_HASH} $${GIT_TIME}"
     }
 
     VERSION      = $$replace(GIT_DESCRIBE, "v", "")

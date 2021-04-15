@@ -164,7 +164,7 @@ Rectangle {
                 }
             QGCButton {
                 //anchors.horizontalCenter:   parent.horizontalCenter
-                text:                       qsTr("Á¬½Ó")
+                text:                       qsTr("è¿žæŽ¥")
                 visible:                    true
                 onClicked:                  _activeVehicle.portinit(comPortCombo.currentText)
             }

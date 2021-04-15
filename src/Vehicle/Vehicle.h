@@ -1195,7 +1195,6 @@ private slots:
     void _addNewMapTrajectoryPoint(void);
     void _parametersReady(bool parametersReady);
     void _remoteControlRSSIChanged(uint8_t rssi);
-    QString _cnspeak(QString in);
     void _handleFlightModeChanged(const QString& flightMode);
     void _announceArmedChanged(bool armed);
     void _offlineFirmwareTypeSettingChanged(QVariant value);
